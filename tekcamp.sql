@@ -1,11 +1,25 @@
+-- Step 1
+/*
+innodb
+    *No Tables*
+students
+    tekcamp01
+sys
+    sys_config
+*/
+
+-- Step 2
 CREATE SCHEMA "tc1-justin-cheng";
 
+-- Step 3
 CREATE TABLE tekcampers like students.tekcamp01;
 
+-- Step 4
 INSERT INTO tekcampers
 SELECT *
 FROM students.tekcamp01;
 
+-- Step 5
 update tekcampers set gender=education, education=gender;
 
 ALTER TABLE "tc1-justin-cheng".tekcampers DROP COLUMN education;
@@ -28,12 +42,17 @@ School Diploma"),
     ("Justin", "Cheng", "M", "Some College"),
     ("Monica", "Howard", "F", NULL);
 
+-- Step 6
+delete from tekcampers where first_name="Jake";
+delete from tekcampers where first_name="Desaree";
+delete from tekcampers where first_name="Rosa";
+
+-- Step 7
 update tekcampers set gender = "M" where last_name="Chavez";
 update tekcampers set gender = "M" where last_name="Torres";
 update tekcampers set gender = "M" where last_name="Kinney";
 update tekcampers set gender = "M" where last_name="Gonzalez";
 update tekcampers set gender = "F" where last_name="Ulysse";
-
 
 update tekcampers set education = "Bachelors Degree" where first_name="Abigail";
 update tekcampers set education = "Bachelors Degree" where first_name="Adam";
@@ -57,10 +76,7 @@ update tekcampers set education = "Some College" where last_name="Barbosa";
 update tekcampers set education = "Some College" where last_name="Clark";
 update tekcampers set education = "Some College" where last_name="Cheng";
 
-delete from tekcampers where first_name="Jake";
-delete from tekcampers where first_name="Desaree";
-delete from tekcampers where first_name="Rosa";
-
+-- Step 8
 SELECT *
 FROM "tc1-justin-cheng".tekcampers
 where LENGTH(first_name)>7;
@@ -81,11 +97,9 @@ SELECT *
 FROM "tc1-justin-cheng".tekcampers
 where gender="F";
 
-
 SELECT *
 FROM "tc1-justin-cheng".tekcampers
 where education="Masters Degree";
-
 
 SELECT *
 FROM "tc1-justin-cheng".tekcampers
@@ -98,7 +112,10 @@ where education="Associates Degree";
 SELECT *
 FROM "tc1
 -justin-cheng".tekcampers
-where education = null OR education != "Masters Degree" AND education != "Associates Degree" AND education != "Bachelors Degree";
+where education is null OR education != "Masters Degree" or education != "Associates Degree" or education != "Bachelors Degree";
+
+-- Step 9
+create table ta_mark like tekcampers;
 
 insert into ta_mark
 select *
@@ -117,7 +134,7 @@ last_name="Bozarov" OR
     last_name="Katta" OR
     last_name="Bates";
 
-
+-- Step 10
 create table hobbies
 (
     id int NOT NULL
@@ -140,5 +157,19 @@ create table hobbies
         (8, "Pickle Ball"),
         (9, "Jiu Jitsu"),
         (10, "Writing"),
-        (11 , "Coding"),
+        (11, "Coding"),
         (12, "Listening to Music");
+
+    -- Step 11
+    Alter table tekcampers add HobbyID int;
+    Alter table tekcampers add FOREIGN KEY (HobbyID) REFERENCES hobbies(id);
+    update tekcampers set HobbyID = (SELECT FLOOR(RAND()*(12-1+1)+1));
+
+    select ta_mark.first_name, ta_mark.last_name, tekcampers.HobbyID, hobbies.hobby
+    from ta_mark left join tekcampers on tekcampers.id = ta_mark.id join hobbies on hobbies.id = tekcampers.HobbyID;
+
+    -- Step 12
+    Alter table tekcampers add bootcamp varchar (50);
+
+    -- Step 12
+    Alter table ta_mark add bootcamp varchar (50);
