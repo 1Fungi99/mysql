@@ -39,6 +39,7 @@ School Diploma"),
     ("Cody", "Clark", "M", NULL),
     ("Gowtham", "Katta", "M", " Bachelors Degree"),
     ("John", "Bozarov", "M", NULL),
+    ("John", "Kol", "M", NULL),
     ("Justin", "Cheng", "M", "Some College"),
     ("Monica", "Howard", "F", NULL);
 
